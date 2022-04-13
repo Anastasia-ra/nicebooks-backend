@@ -10,6 +10,7 @@
     "migrate": "dotenv ley"
   },
   "dependencies": {
+    "dotenv": "^16.0.0",
     "dotenv-safe": "^8.2.0",
     "ley": "^0.7.1",
     "next": "12.1.5",
