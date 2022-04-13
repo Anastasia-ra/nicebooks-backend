@@ -1,7 +1,16 @@
-exports.up = async client => {
-	// <insert magic here>
+exports.up = async (sql) => {
+  await sql`
+    CREATE TABLE users (
+      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+			email varchar(30) NOT NULL UNIQUE,
+      username varchar(30) NOT NULL UNIQUE,
+      password_hash varchar(60) NOT NULL
+    );
+  `;
 };
 
-exports.down = async client => {
-	// just in case...
+exports.down = async (sql) => {
+  await sql`
+    DROP TABLE users
+  `;
 };
