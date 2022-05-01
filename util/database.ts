@@ -1,6 +1,8 @@
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
+import setPostgresDefaultsOnHeroku from '../setPostgresDefaultsOnHeroku';
 
+setPostgresDefaultsOnHeroku();
 config();
 
 declare module globalThis {
