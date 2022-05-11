@@ -2,7 +2,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku.js';
-import { User } from './types';
+import { User, Session } from './types';
 
 setPostgresDefaultsOnHeroku();
 config();
@@ -76,4 +76,20 @@ export async function createUser(
        email
   `;
   return camelcaseKeys(user);
+}
+
+export async function getValidSessionByToken(token: string) {
+  const [session] = await sql<[Session | undefined]>`
+  SELECT
+   *
+  FROM
+    sessions
+  WHERE
+  token = ${token} AND
+  expiry_timestamp > now()
+`;
+
+  await deleteExpiredSessions();
+
+  return session && camelcaseKeys(session);
 }
