@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { getValidSessionByToken } from './database';
-import { createUserWithHash } from './resolverFunctions';
-import { typeDefs } from './typeDefs';
+import { getValidSessionByToken } from '../../util/database';
+import { createUserWithHash } from '../../util/resolverFunctions';
+import { typeDefs } from '../../util/typeDefs';
 
 const resolvers = {
   Mutation: {
