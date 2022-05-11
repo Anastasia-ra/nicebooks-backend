@@ -72,8 +72,8 @@ export async function createUser(
        (${email}, ${username}, ${passwordHash})
     RETURNING
        id,
-       email,
-       username
+       username,
+       email
   `;
   return camelcaseKeys(user);
 }
