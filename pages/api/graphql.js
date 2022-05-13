@@ -6,17 +6,23 @@ import { typeDefs } from '../../util/typeDefs';
 const resolvers = {
   Mutation: {
     async createUser(parent, args, context) {
+      console.log('here');
       if ('session' in context) {
+        console.log('here1');
         return { error: 'Already logged in' };
       }
+      console.log('here2');
       const [error, serializedCookie, user] = await createUserWithHash(
         args.username,
         args.email,
         args.password,
       );
+      console.log('here3');
       if (error) {
+        console.log('here4');
         return { error };
       }
+      console.log('here5');
       context.res.setHeader('Set-Cookie', serializedCookie);
       return user;
     },
