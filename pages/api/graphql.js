@@ -38,23 +38,37 @@ export const config = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req, res }) => {
-    // get the token from the headers
-    const token = (await req.cookies.sessionToken) || '';
-    // if there is no token, error
-    if (!token) {
-      const error = 'Please log in';
-      return { error, res };
-    }
-    // use the token to get the user's id. if there is none, error
-    const session = await getValidSessionByToken(token);
-    if (!session) {
-      const error = 'Please log in';
-      return { error, res };
-    }
-    // if the token finds a user, return the session
-    return { session };
+  cors: {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: '*',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   },
+  // Return response to allow setting cookies in resolvers
+  context({ res, req }) {
+    return {
+      res,
+      req,
+    };
+  },
+  // context: async ({ req, res }) => {
+  //   // get the token from the headers
+  //   const token = (await req.cookies.sessionToken) || '';
+  //   // if there is no token, error
+  //   if (!token) {
+  //     const error = 'Please log in';
+  //     return { error, res };
+  //   }
+  //   // use the token to get the user's id. if there is none, error
+  //   const session = await getValidSessionByToken(token);
+  //   if (!session) {
+  //     const error = 'Please log in';
+  //     return { error, res };
+  //   }
+  //   // if the token finds a user, return the session
+  //   return { session };
+  // },
 });
 
 const startServer = apolloServer.start();
