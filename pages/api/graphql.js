@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-micro';
 import { getValidSessionByToken } from '../../util/database';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { createUserWithHash } from '../../util/resolverFunctions';
 import { typeDefs } from '../../util/typeDefs';
 
@@ -35,9 +36,11 @@ export const config = {
   },
 };
 
+export const schema = makeExecutableSchema({ typeDefs, resolvers });
+
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
+  introspection: true,
   cors: {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
